@@ -114,21 +114,18 @@ function getBookById(books, id) {
   // Повертаємо book
   // Повертаємо текстове представлення помилки
 
-  try {const even = (element) => element.id === id;
-  if (books.some(even) === true) {
-    books = books.filter(element => element.id === id
-    );
-    let {title} = books[0];
-    let book = title;
-    return `Книга: ${book}`;
- } else {
-  const TypeError = new Error(`Книга з ID ${id} не знайдена!`);
-  throw TypeError;}
-  } catch (err) {
-    return err.toString();
-  }      
+  try {
+    let book = books.find((book) => book.id === id);
+    if (!book) {
+      throw new TypeError(`Книга з ID ${id} не знайдена!`);
+    }
+    return `Книга: ${book.title}`;
+  } catch (error) {
+    return error.toString();
      }
-  
+    }
+     
+
 
 console.log("Завдання: 4 ==============================");
 
@@ -294,19 +291,14 @@ function calculateSquareRoot(number) {
   // Повертаємо корінь квадратний з вхідного значення
   // Повертаємо повідомлення про помилку.
   try {
-    if (typeof number === "number") {
-      if (number > 0) {
+    if (typeof number !== "number") {
+      throw new Error("Аргумент має бути числом!");
+    };
+      if (number < 0) {
+        throw new Error("Число не повинно бути від'ємним!");
+      }; 
         return Math.sqrt(number);
 
-      } else {
-        let error = new Error("Число не повинно бути від'ємним!");
-        throw error;
-      }
-
-    } else {
-      let error = new Error("Аргумент має бути числом!");
-      throw error;
-    }
   } catch (error) {
     return error.message;
   }
@@ -341,8 +333,7 @@ function processData(data) {
           
       if (typeof val !== "number") {
         let index = data.indexOf(val);
-        let error = new Error(`Елемент з індексом ${index} має бути числом!`);
-        throw error;
+        throw Error(`Елемент з індексом ${index} має бути числом!`);
       };
     };
 
